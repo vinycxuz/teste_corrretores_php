@@ -3,7 +3,7 @@
   $host = "localhost";
   $dbname = "corretores";
   $username = "root";
-  $password = "1396758zafqkI23.";
+  $password = "Coloque sua senha aqui";
 
   try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
