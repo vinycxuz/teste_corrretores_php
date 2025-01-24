@@ -41,6 +41,17 @@
   } else {
     echo "Por favor, preencha todos os campos";
   }
+} elseif (isset($_GET['delete_id'])) {
+    $delete_id = $_GET['delete_id'];
+    try {
+        $sql = "DELETE FROM corretor WHERE id = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':id', $delete_id);
+        $stmt->execute();
+        echo "Corretor deletado com sucesso!";
+    } catch(PDOException $e) {
+        echo "Erro ao deletar: " . $e->getMessage();
+    }
 }
 ?>
 
@@ -75,7 +86,7 @@
         $sql = "SELECT * FROM corretor";
         $stmt = $pdo->query($sql);
         while ($row = $stmt->fetch()) {
-          echo "<><td>".$row['cpf']."</td><td>".$row['cresci']."</td><td>".$row['nome']."</td><td>" . "<a href='delete.php?id=".$row['id']."'>Deletar</a></td><td> <a href='edit.php?id=".$row['id']."'>editar</a></td></tr>";
+          echo "<tr><td>".$row['cpf']."</td><td>".$row['cresci']."</td><td>".$row['nome']."</td><td>" . "<a href='index.php?delete_id=".$row['id']."'>Deletar</a></td><td> <a href='edit.php?id=".$row['id']."'>editar</a></td></tr>";
         }
       ?>
     </table>

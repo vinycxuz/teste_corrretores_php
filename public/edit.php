@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editar corretor</title>
-</head>
-<body>
-  <?php
+<?php
   $host = "localhost";
   $dbname = "corretores";
   $username = "root";
@@ -51,11 +43,33 @@
   }
   ?>
 
-  <form method="post" action="">
-    <input type="text" id="cpf" name="cpf" value="<?php echo $row['cpf']; ?>"><br>
-    <input type="text" id="cresci" name="cresci" value="<?php echo $row['cresci']; ?>"><br>
-    <input type="text" id="nome" name="nome" value="<?php echo $row['nome']; ?>"><br>
-    <button type="submit" value="Update">Salvar</button>
-  </form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style.css">
+  <title>Editar corretor</title>
+</head>
+<body>
+  <main>
+  <div class="form_container">
+    <h2>Editar Corretor</h2>
+    <form method="post" action="">
+      <div class="input-number_container">
+        <input type="text" id="cpf" name="cpf" value="<?php echo $row['cpf']; ?>">
+        <input type="text" id="cresci" name="cresci" value="<?php echo $row['cresci']; ?>">
+      </div>
+      <input type="text" id="nome" name="nome" value="<?php echo $row['nome']; ?>">
+      <button type="submit" value="Update">Salvar</button>
+      <?php
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && $stmt->execute()) {
+          header("Location: index.php");
+          exit;
+        }
+      ?>
+    </form>
+  </div>
+  </main>
 </body>
 </html>
