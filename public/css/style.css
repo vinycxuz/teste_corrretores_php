@@ -5,6 +5,10 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+h2 {
+    margin-bottom: 10px;
+}
+
 main {
     display: flex;
     flex-direction: column;
@@ -70,7 +74,7 @@ button {
 }
 
 table {
-    width: 100%;
+    width: 90%;
     border-collapse: collapse;
     margin-top: 10%;
 }
@@ -83,4 +87,28 @@ th, td {
 
 a {
     text-decoration: none;
+}
+
+.box-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
+
+.box-message div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  width: 30%;
+}
+
+.box-message p {
+  color: #fc5b46;
+  font-weight: bold;
+}
+
+.box-message .sucess {
+  color: green;
 }

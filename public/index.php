@@ -7,7 +7,6 @@
   try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Conexão realizada com sucesso";
   } catch(PDOException $e) {
     echo "Erro de conexão: " . $e->getMessage();
   }
@@ -18,37 +17,41 @@
     $nome = $_POST['nome'];
 
     if (!empty($cpf) && !empty($cresci) && !empty($nome)) {
-      try {
-        $sql = "CREATE TABLE IF NOT EXISTS corretor (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            cpf VARCHAR(11),
-            cresci VARCHAR(10),
-            nome VARCHAR(80)
-        )";
-        $pdo->exec($sql);
-    
-        $sql = "INSERT INTO corretor (cpf, cresci, nome) VALUES (:cpf, :cresci, :nome)";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindValue(':cpf', $cpf);
-        $stmt->bindValue(':cresci', $cresci);
-        $stmt->bindValue(':nome', $nome);
-        $stmt->execute();
-        
-        echo "Dados cadastrados com sucesso!";
-    } catch(PDOException $e) {
-        echo "Erro ao cadastrar: " . $e->getMessage();
+      if (strlen($cpf) == 11 && strlen($cresci) >= 3) {
+        try {
+          $sql = "CREATE TABLE IF NOT EXISTS corretor (
+              id INT AUTO_INCREMENT PRIMARY KEY,
+              cpf VARCHAR(11),
+              cresci VARCHAR(10),
+              nome VARCHAR(80)
+          )";
+          $pdo->exec($sql);
+      
+          $sql = "INSERT INTO corretor (cpf, cresci, nome) VALUES (:cpf, :cresci, :nome)";
+          $stmt = $pdo->prepare($sql);
+          $stmt->bindValue(':cpf', $cpf);
+          $stmt->bindValue(':cresci', $cresci);
+          $stmt->bindValue(':nome', $nome);
+          $stmt->execute();
+          
+          echo "<div class=\"box-message\"><div><p class=\"sucess\">Corretor cadastrado com sucesso!</p></div></div>";
+        } catch(PDOException $e) {
+          echo "<div class=\"box-message\"><div><p>Erro ao cadastrar.</p></div></div>";
+        }
+      } else {
+        echo "<div class=\"box-message\"><div><p>Preencha o formulário corretamente.</p></div></div>";
+      }
+    } else {
+      echo "<div class=\"box-message\"><div><p>Preencha o formulário corretamente.</p></div></div>";
     }
-  } else {
-    echo "Por favor, preencha todos os campos";
-  }
-} elseif (isset($_GET['delete_id'])) {
+  } elseif (isset($_GET['delete_id'])) {
     $delete_id = $_GET['delete_id'];
     try {
         $sql = "DELETE FROM corretor WHERE id = :id";
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':id', $delete_id);
         $stmt->execute();
-        echo "Corretor deletado com sucesso!";
+        echo "<div class=\"box-message\"><div><p class=\"sucess\">Corretor deletado com sucesso!</p></div></div>";
     } catch(PDOException $e) {
         echo "Erro ao deletar: " . $e->getMessage();
     }
