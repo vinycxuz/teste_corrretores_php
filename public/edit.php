@@ -38,7 +38,11 @@
       $stmt->bindParam(':id', $id);
 
       if ($stmt->execute()) {
-        echo "Record updated successfully";
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && $stmt->execute() && !empty($cpf) && !empty($cresci) && !empty($nome)) {
+          header("Location: index.php");
+        } else {
+          echo "<div class=\"box-message\"><div><p></p></div></div>";
+        }
       } else {
         echo "Error updating record: ";
       }
@@ -70,13 +74,7 @@
       </div>
       <input type="text" id="nome" name="nome" placeholder="Digite seu nome" value="<?php echo $row['nome']; ?>">
       <button type="submit" value="Update">Salvar</button>
-      <?php
-        if ($_SERVER['REQUEST_METHOD'] == 'POST' && $stmt->execute() && !empty($cpf) && !empty($cresci) && !empty($nome)) {
-          header("Location: index.php");
-        } else {
-          echo "<div class=\"box-message\"><div><p>Erro ao atualizar.</p></div></div>";
-        }
-      ?>
+      
     </form>
   </div>
   </main>
