@@ -57,10 +57,10 @@
     <h2>Editar Corretor</h2>
     <form method="post" action="">
       <div class="input-number_container">
-        <input type="text" id="cpf" name="cpf" value="<?php echo $row['cpf']; ?>">
-        <input type="text" id="cresci" name="cresci" value="<?php echo $row['cresci']; ?>">
+        <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" value="<?php echo $row['cpf']; ?>">
+        <input type="text" id="creci" name="cresci" placeholder="Digite seu Creci" value="<?php echo $row['cresci']; ?>">
       </div>
-      <input type="text" id="nome" name="nome" value="<?php echo $row['nome']; ?>">
+      <input type="text" id="nome" name="nome" placeholder="Digite seu nome" value="<?php echo $row['nome']; ?>">
       <button type="submit" value="Update">Salvar</button>
       <?php
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $stmt->execute()) {

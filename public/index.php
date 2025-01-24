@@ -69,8 +69,8 @@
     <h2>Cadastro de Corretor</h2>
       <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
         <div class="input-number_container">
-          <input class="input-cpf" type="text" name="cpf" placeholder="Digite seu cpf">
-          <input class="input-cresci" type="text" name="cresci" placeholder="Digite seu cresci">
+          <input class="input-cpf" type="text" name="cpf" placeholder="Digite seu CPF">
+          <input class="input-creci" type="text" name="cresci" placeholder="Digite seu Creci">
         </div>
         <input type="text" class="input-name" name="nome" placeholder="Digite seu nome">
         <button type="submit" value="Submit">Enviar</button>
@@ -86,7 +86,7 @@
         $sql = "SELECT * FROM corretor";
         $stmt = $pdo->query($sql);
         while ($row = $stmt->fetch()) {
-          echo "<tr><td>".$row['cpf']."</td><td>".$row['cresci']."</td><td>".$row['nome']."</td><td>" . "<a href='index.php?delete_id=".$row['id']."'>Deletar</a></td><td> <a href='edit.php?id=".$row['id']."'>editar</a></td></tr>";
+          echo "<tr><td>".$row['cpf']."</td><td>".$row['cresci']."</td><td>".$row['nome']."</td><td>" . "<a href='index.php?delete_id=".$row['id']."'>Deletar</a></td><td> <a href='edit.php?id=".$row['id']."'>Editar</a></td></tr>";
         }
       ?>
     </table>
