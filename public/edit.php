@@ -1,4 +1,5 @@
 <?php
+  session_start();
   $host = "localhost";
   $dbname = "corretores";
   $username = "root";
@@ -7,7 +8,6 @@
   try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Conexão realizada com sucesso";
   } catch(PDOException $e) {
     echo "Erro de conexão: " . $e->getMessage();
   }
@@ -28,18 +28,26 @@
     $cresci = $_POST['cresci'];
     $nome = $_POST['nome'];
 
-    $update_sql = "UPDATE corretor SET cpf=:cpf, cresci=:cresci, nome=:nome WHERE id=:id";
-    $stmt = $pdo->prepare($update_sql);
-    $stmt->bindParam(':cpf', $cpf);
-    $stmt->bindParam(':cresci', $cresci);
-    $stmt->bindParam(':nome', $nome);
-    $stmt->bindParam(':id', $id);
+    if (!empty($cpf) && !empty($cresci) && !empty($nome)) {
+      if (strlen($cpf) == 11 && strlen($cresci) >= 3) {
+      $update_sql = "UPDATE corretor SET cpf=:cpf, cresci=:cresci, nome=:nome WHERE id=:id";
+      $stmt = $pdo->prepare($update_sql);
+      $stmt->bindParam(':cpf', $cpf);
+      $stmt->bindParam(':cresci', $cresci);
+      $stmt->bindParam(':nome', $nome);
+      $stmt->bindParam(':id', $id);
 
-    if ($stmt->execute()) {
-      echo "Record updated successfully";
+      if ($stmt->execute()) {
+        echo "Record updated successfully";
+      } else {
+        echo "Error updating record: ";
+      }
     } else {
-      echo "Error updating record: " . $stmt->errorInfo()[2];
+      echo "<div class=\"box-message\"><div><p>Preencha o formulário corretamente.</p></div></div>";
     }
+  } else {
+  echo "<div class=\"box-message\"><div><p>Preencha o formulário corretamente.</p></div></div>";
+  }
   }
   ?>
 
@@ -63,13 +71,16 @@
       <input type="text" id="nome" name="nome" placeholder="Digite seu nome" value="<?php echo $row['nome']; ?>">
       <button type="submit" value="Update">Salvar</button>
       <?php
-        if ($_SERVER['REQUEST_METHOD'] == 'POST' && $stmt->execute()) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && $stmt->execute() && !empty($cpf) && !empty($cresci) && !empty($nome)) {
           header("Location: index.php");
-          exit;
+        } else {
+          echo "<div class=\"box-message\"><div><p>Erro ao atualizar.</p></div></div>";
         }
       ?>
     </form>
   </div>
   </main>
+
+  <script src="js/script.js"></script>
 </body>
 </html>

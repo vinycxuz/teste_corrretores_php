@@ -1,4 +1,5 @@
 <?php
+  session_start();
   $host = "localhost";
   $dbname = "corretores";
   $username = "root";
@@ -35,6 +36,8 @@
           $stmt->execute();
           
           echo "<div class=\"box-message\"><div><p class=\"sucess\">Corretor cadastrado com sucesso!</p></div></div>";
+          header("Location: " . $_SERVER['PHP_SELF'] . "?success=true");
+          exit();
         } catch(PDOException $e) {
           echo "<div class=\"box-message\"><div><p>Erro ao cadastrar.</p></div></div>";
         }
@@ -94,5 +97,7 @@
       ?>
     </table>
   </main>
+
+  <script src="js/script.js"></script>
 </body>
 </html>
