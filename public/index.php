@@ -69,7 +69,7 @@
       $sql = "SELECT * FROM corretor";
       $stmt = $pdo->query($sql);
       while ($row = $stmt->fetch()) {
-        echo "<><td>".$row['cpf']."</td><td>".$row['cresci']."</td><td>".$row['nome']."</td><td>" . "<a href='delete.php?id=".$row['id']."'>Deletar</a></td><td> <a href='update.php?id=".$row['id']."'>editar</a></td></tr>";
+        echo "<><td>".$row['cpf']."</td><td>".$row['cresci']."</td><td>".$row['nome']."</td><td>" . "<a href='delete.php?id=".$row['id']."'>Deletar</a></td><td> <a href='edit.php?id=".$row['id']."'>editar</a></td></tr>";
       }
     ?>
   </table>
