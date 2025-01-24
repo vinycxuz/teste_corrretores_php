@@ -20,6 +20,35 @@
     echo "Erro de conexão: " . $e->getMessage();
   }
 
+  $id = $_GET['id'];
+
+  $sql = "SELECT * FROM corretor WHERE id=$id";
+  $result = $pdo->query($sql);
+  if ($result->rowCount() > 0) {
+    $row = $result->fetch(PDO::FETCH_ASSOC);
+  } else {
+    echo "No user found";
+    exit;
+  }
+
+  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $cpf = $_POST['cpf'];
+    $cresci = $_POST['cresci'];
+    $nome = $_POST['nome'];
+
+    $update_sql = "UPDATE corretor SET cpf=:cpf, cresci=:cresci, nome=:nome WHERE id=:id";
+    $stmt = $pdo->prepare($update_sql);
+    $stmt->bindParam(':cpf', $cpf);
+    $stmt->bindParam(':cresci', $cresci);
+    $stmt->bindParam(':nome', $nome);
+    $stmt->bindParam(':id', $id);
+
+    if ($stmt->execute()) {
+      echo "Record updated successfully";
+    } else {
+      echo "Error updating record: " . $stmt->errorInfo()[2];
+    }
+  }
   ?>
 
   <form method="post" action="">
@@ -29,7 +58,7 @@
     <input type="text" id="cresci" name="cresci" value="<?php echo $row['cresci']; ?>"><br>
     <label for="nome">Nome:</label>
     <input type="text" id="nome" name="nome" value="<?php echo $row['nome']; ?>"><br>
-    <input type="submit" value="Update">
+    <button type="submit" value="Update">Salvar</button>
   </form>
 </body>
 </html>
