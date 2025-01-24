@@ -19,27 +19,37 @@
 
     if (!empty($cpf) && !empty($cresci) && !empty($nome)) {
       if (strlen($cpf) == 11 && strlen($cresci) >= 3) {
-        try {
-          $sql = "CREATE TABLE IF NOT EXISTS corretor (
-              id INT AUTO_INCREMENT PRIMARY KEY,
-              cpf VARCHAR(11),
-              cresci VARCHAR(10),
-              nome VARCHAR(80)
-          )";
-          $pdo->exec($sql);
-      
-          $sql = "INSERT INTO corretor (cpf, cresci, nome) VALUES (:cpf, :cresci, :nome)";
-          $stmt = $pdo->prepare($sql);
-          $stmt->bindValue(':cpf', $cpf);
-          $stmt->bindValue(':cresci', $cresci);
-          $stmt->bindValue(':nome', $nome);
-          $stmt->execute();
-          
-          echo "<div class=\"box-message\"><div><p class=\"sucess\">Corretor cadastrado com sucesso!</p></div></div>";
-          header("Location: " . $_SERVER['PHP_SELF'] . "?success=true");
-          exit();
-        } catch(PDOException $e) {
-          echo "<div class=\"box-message\"><div><p>Erro ao cadastrar.</p></div></div>";
+        $sql = "SELECT COUNT(*) FROM corretor WHERE cpf = :cpf";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':cpf', $cpf);
+        $stmt->execute();
+        $count = $stmt->fetchColumn();
+
+        if ($count == 0) {
+          try {
+            $sql = "CREATE TABLE IF NOT EXISTS corretor (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                cpf VARCHAR(11),
+                cresci VARCHAR(10),
+                nome VARCHAR(80)
+            )";
+            $pdo->exec($sql);
+        
+            $sql = "INSERT INTO corretor (cpf, cresci, nome) VALUES (:cpf, :cresci, :nome)";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindValue(':cpf', $cpf);
+            $stmt->bindValue(':cresci', $cresci);
+            $stmt->bindValue(':nome', $nome);
+            $stmt->execute();
+            
+            echo "<div class=\"box-message\"><div><p class=\"sucess\">Corretor cadastrado com sucesso!</p></div></div>";
+            header("Location: " . $_SERVER['PHP_SELF'] . "?success=true");
+            exit();
+          } catch(PDOException $e) {
+            echo "<div class=\"box-message\"><div><p>Erro ao cadastrar.</p></div></div>";
+          }
+        } else {
+          echo "<div class=\"box-message\"><div><p>CPF já cadastrado.</p></div></div>";
         }
       } else {
         echo "<div class=\"box-message\"><div><p>Preencha o formulário corretamente.</p></div></div>";
