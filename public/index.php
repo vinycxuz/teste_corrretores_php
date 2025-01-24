@@ -49,29 +49,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style.css">
   <title>Document</title>
 </head>
 <body>
-  <h2>Cadastro de Corretor</h2>
-  <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
-    <input type="text" name="cpf" placeholder="Digite seu cpf">
-    <input type="text" name="cresci" placeholder="Digite seu cresci">
-    <input type="text" name="nome" placeholder="Digite seu nome">
-    <button type="submit" value="Submit">Enviar</button>
-  </form>
-  <table>
-    <tr>
-      <th>CPF</th>
-      <th>Cresci</th>
-      <th>Nome</th>
-    </tr>
-    <?php
-      $sql = "SELECT * FROM corretor";
-      $stmt = $pdo->query($sql);
-      while ($row = $stmt->fetch()) {
-        echo "<><td>".$row['cpf']."</td><td>".$row['cresci']."</td><td>".$row['nome']."</td><td>" . "<a href='delete.php?id=".$row['id']."'>Deletar</a></td><td> <a href='edit.php?id=".$row['id']."'>editar</a></td></tr>";
-      }
-    ?>
-  </table>
+  <main>
+  <div class="form_container">
+    <h2>Cadastro de Corretor</h2>
+      <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+        <div class="input-number_container">
+          <input class="input-cpf" type="text" name="cpf" placeholder="Digite seu cpf">
+          <input class="input-cresci" type="text" name="cresci" placeholder="Digite seu cresci">
+        </div>
+        <input type="text" class="input-name" name="nome" placeholder="Digite seu nome">
+        <button type="submit" value="Submit">Enviar</button>
+      </form>
+    </div>
+    <table>
+      <tr>
+        <th>CPF</th>
+        <th>Cresci</th>
+        <th>Nome</th>
+      </tr>
+      <?php
+        $sql = "SELECT * FROM corretor";
+        $stmt = $pdo->query($sql);
+        while ($row = $stmt->fetch()) {
+          echo "<><td>".$row['cpf']."</td><td>".$row['cresci']."</td><td>".$row['nome']."</td><td>" . "<a href='delete.php?id=".$row['id']."'>Deletar</a></td><td> <a href='edit.php?id=".$row['id']."'>editar</a></td></tr>";
+        }
+      ?>
+    </table>
+  </main>
 </body>
 </html>

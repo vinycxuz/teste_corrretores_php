@@ -52,11 +52,8 @@
   ?>
 
   <form method="post" action="">
-    <label for="cpf">CPF:</label>
     <input type="text" id="cpf" name="cpf" value="<?php echo $row['cpf']; ?>"><br>
-    <label for="cresci">CRESCI:</label>
     <input type="text" id="cresci" name="cresci" value="<?php echo $row['cresci']; ?>"><br>
-    <label for="nome">Nome:</label>
     <input type="text" id="nome" name="nome" value="<?php echo $row['nome']; ?>"><br>
     <button type="submit" value="Update">Salvar</button>
   </form>
