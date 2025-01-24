@@ -18,9 +18,26 @@
     $nome = $_POST['nome'];
 
     if (!empty($cpf) && !empty($cresci) && !empty($nome)) {
-      echo "CPF: " . $cpf . "<br>";
-      echo "CRESCI: " . $cresci . "<br>";
-      echo "Nome: " . $nome;
+      try {
+        $sql = "CREATE TABLE IF NOT EXISTS corretor (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            cpf VARCHAR(11),
+            cresci VARCHAR(10),
+            nome VARCHAR(80)
+        )";
+        $pdo->exec($sql);
+    
+        $sql = "INSERT INTO corretor (cpf, cresci, nome) VALUES (:cpf, :cresci, :nome)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':cpf', $cpf);
+        $stmt->bindValue(':cresci', $cresci);
+        $stmt->bindValue(':nome', $nome);
+        $stmt->execute();
+        
+        echo "Dados cadastrados com sucesso!";
+    } catch(PDOException $e) {
+        echo "Erro ao cadastrar: " . $e->getMessage();
+    }
   } else {
     echo "Por favor, preencha todos os campos";
   }
