@@ -59,5 +59,19 @@
     <input type="text" name="nome" placeholder="Digite seu nome">
     <button type="submit" value="Submit">Enviar</button>
   </form>
+  <table>
+    <tr>
+      <th>CPF</th>
+      <th>Cresci</th>
+      <th>Nome</th>
+    </tr>
+    <?php
+      $sql = "SELECT * FROM corretor";
+      $stmt = $pdo->query($sql);
+      while ($row = $stmt->fetch()) {
+        echo "<><td>".$row['cpf']."</td><td>".$row['cresci']."</td><td>".$row['nome']."</td><td>" . "<a href='delete.php?id=".$row['id']."'>Deletar</a></td><td> <a href='update.php?id=".$row['id']."'>editar</a></td></tr>";
+      }
+    ?>
+  </table>
 </body>
 </html>
